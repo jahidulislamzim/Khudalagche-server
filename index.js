@@ -49,7 +49,7 @@ async function run() {
         // POST All order api
         app.post('/AllOrder', async (req, res) => {
             const OrderList = req.body;
-            console.log('order hit the server', OrderList);
+            // console.log('order hit the server', OrderList);
 
 
             const result = await orderCollection.insertOne(OrderList);
@@ -70,7 +70,7 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await orderCollection.deleteOne(query);
-            console.log('deleting user with id', result)
+            // console.log('deleting user with id', result)
             res.json(result);
         })
 
@@ -82,13 +82,13 @@ async function run() {
             const id = req.params.id;
             const updatedStatus = req.body;
             const filter = { _id: ObjectId(id) };
-            // const options = { upsert: true };
+            const options = { upsert: true };
             const updateDoc = {
                 $set: {
                     status: updatedStatus.status
                 },
             };
-            const result = await orderCollection.updateOne(filter, updateDoc);
+            const result = await orderCollection.updateOne(filter, updateDoc, options);
             // console.log(`your id nong`, id, updatedStatus);
             res.send(result)
         })
